@@ -1,0 +1,62 @@
+FindSingularCuboids:
+  base_frame: world
+  cluster_distance_threshold: 0.01
+  crop_box_origin_x: -5
+  crop_box_origin_y: -5
+  crop_box_origin_z: -5
+  crop_box_size_x: 10
+  crop_box_size_y: 10
+  crop_box_size_z: 10
+  plane_model_threshold: 0.01
+IsForceWithinThreshold:
+  force_threshold: 5
+  hand_frame_name: grasp_link
+  minimum_consecutive_wrench_values: 10
+  wrench_frame_name: tool0
+  wrench_topic_name: /force_torque_sensor_broadcaster/wrench
+SetupMTCApproachGrasp:
+  approach_distance: 0.1
+  arm_group_name: manipulator
+  camera_field_of_view_angle: 1.0472
+  camera_optical_frame_id: wrist_mounted_camera_color_optical_frame
+  end_effector_group_name: gripper
+  end_effector_name: moveit_ee
+  enforce_visibility_constraint: false
+  hand_frame_name: grasp_link
+  sensor_z_offset: 0.02
+  target_diameter: 0
+  world_frame_name: world
+SetupMTCGenerateCuboidGrasps:
+  end_effector_closed_pose_name: close
+  end_effector_group_name: gripper
+  end_effector_name: moveit_ee
+  grasp_candidate_config:
+    generate_x_axis_grasps: true
+    generate_y_axis_grasps: true
+    generate_z_axis_grasps: true
+    samples_per_quadrant: 1
+  grasp_data:
+    eef_mount_to_tcp_transform:
+      pitch: 0
+      roll: 0
+      x: 0
+      y: 0
+      yaw: 1.57
+      z: -0.02
+    grasp_max_depth: 0.035
+    grasp_min_depth: 0.01
+    max_grasp_width: 0.1
+  hand_frame_name: grasp_link
+  ui_grasp_link: grasp_link
+SetupMTCMoveAlongFrameAxis:
+  arm_group_name: manipulator
+  hand_frame_name: grasp_link
+  velocity_acceleration_scaling_factor: 0.3
+SetupMTCRetractFromGrasp:
+  approach_distance: 0
+  arm_group_name: manipulator
+  end_effector_closed_pose_name: close
+  end_effector_group_name: gripper
+  hand_frame_name: grasp_link
+  lift_distance: 0.1
+  world_frame_name: world

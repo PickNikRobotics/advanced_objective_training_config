@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Stack Blocks">
+  <!-- ////////// -->
+  <BehaviorTree ID="Stack Blocks" _description="" _favorite="true" _hardcoded="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="LoadObjectiveParameters" config_file_name="stack_blocks_config.yaml" parameters="{parameters}"/>
+      <Action ID="ClearSnapshot"/>
+      <SubTree ID="Open Gripper" _collapsed="true"/>
+      <Action ID="MoveToWaypoint" waypoint_name="Look at Blocks" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+      <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+      <Action ID="CreateStampedPose" reference_frame="world" position_xyz="-0.5;0.5;0.0" orientation_xyzw="0.0;0.0;0.0;1.0" stamped_pose="{pose}"/>
+      <Action ID="CropPointsInBox" point_cloud="{point_cloud}" crop_box_centroid_pose="{pose}" crop_box_size="1.0;1.0;1.0" point_cloud_cropped="{point_cloud_cropped}"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_cropped}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="FindSingularCuboids" parameters="{parameters}" point_cloud="{point_cloud_cropped}" detected_shapes="{blocks}"/>
+      <Decorator ID="ForEachGraspableObject" vector_in="{blocks}" out="{block}">
+        <Control ID="Sequence">
+          <Control ID="Sequence">
+            <Action ID="InitializeMTCTask" task_id="pick_task" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{task_pick}"/>
+            <Action ID="SetupMTCCurrentState" task="{task_pick}"/>
+            <Action ID="SetupMTCApproachGrasp" parameters="{parameters}" target_object="{block}" task="{task_pick}" monitored_stage="{monitored_stage}"/>
+            <Action ID="SetupMTCGenerateCuboidGrasps" parameters="{parameters}" target_object="{block}" monitored_stage="{monitored_stage}" task="{task_pick}"/>
+            <Action ID="SetupMTCRetractFromGrasp" parameters="{parameters}" target_object="{block}" task="{task_pick}"/>
+            <Action ID="PlanMTCTask" task="{task_pick}" solution="{solution_pick}"/>
+          </Control>
+          <Action ID="ExecuteMTCTask" solution="{solution_pick}"/>
+          <Action ID="MoveToWaypoint" waypoint_name="Pre-Place Block" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+          <Control ID="Sequence">
+            <Action ID="InitializeMTCTask" task_id="" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{task_place}"/>
+            <Action ID="SetupMTCCurrentState" task="{task_place}"/>
+            <Action ID="SetupMTCMoveAlongFrameAxis" axis="z" max_distance="0.5" min_distance="0.1" parameters="{parameters}" task="{task_place}"/>
+            <Action ID="PlanMTCTask" task="{task_place}" solution="{solution_place}"/>
+          </Control>
+          <Control ID="Parallel" success_count="1" failure_count="1">
+            <Action ID="ExecuteMTCTask" solution="{solution_place}"/>
+            <Decorator ID="Inverter">
+              <Action ID="IsForceWithinThreshold" parameters="{parameters}"/>
+            </Decorator>
+          </Control>
+          <SubTree ID="Open Gripper" _collapsed="true"/>
+          <Action ID="MoveToWaypoint" waypoint_name="Pre-Place Block" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+          <Action ID="MoveToWaypoint" waypoint_name="Look at Blocks" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>
+

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Get First Graspable Object In List">
+  <!-- ////////// -->
+  <BehaviorTree ID="Get First Graspable Object In List">
+    <Decorator ID="ForceSuccess">
+      <Decorator ID="ForEachGraspableObject" vector_in="{objects}" out="{first_object}">
+        <Action ID="AlwaysFailure"/>
+      </Decorator>
+    </Decorator>
+  </BehaviorTree>
+</root>

@@ -1,0 +1,8 @@
+<root>
+  <TreeNodesModel>
+    <SubTree ID="Get First Graspable Object In List">
+      <output_port name="first_object" default="{object}"/>
+      <input_port name="objects" default="{objects}"/>
+    </SubTree>
+  </TreeNodesModel>
+</root>

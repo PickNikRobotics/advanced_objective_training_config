@@ -1,0 +1,51 @@
+- description: ''
+  favorite: false
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0.0002623478177560888
+    - -1.4095905733202716
+    - -0.7009900181356981
+    - -2.1199025284057633
+    - 1.669614951825071
+    - 5.211131728584864e-05
+    velocity: []
+  name: Look at Blocks
+- description: ''
+  favorite: true
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0.24950418820174983
+    - -0.9699105734116537
+    - -2.0808064113479543
+    - -1.6127427265792835
+    - 1.5803888820168823
+    - 0.20009196038841848
+    velocity: []
+  name: Pre-Place Block
+
