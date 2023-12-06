@@ -5,4 +5,6 @@ objectives:
     training:
       package_name: "advanced_objective_training_config"
       relative_path: "objectives"
-
+  waypoints_file:
+    package_name: "advanced_objective_training_config"
+    relative_path: "waypoints/waypoints.yaml"
